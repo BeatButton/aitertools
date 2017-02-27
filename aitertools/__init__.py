@@ -89,8 +89,10 @@ async def aiter(*args):
         return obj
 
     if hasattr(obj, '__aiter__'):
-
-        return (await obj.__aiter__())
+        try:
+            return await obj.__aiter__()
+        except TypeError:
+            return obj.__aiter__()
 
     if hasattr(obj, '__iter__') or hasattr(obj, '__next__'):
 
